@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Local Storage (Personal documents & generated data)
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/extracted/*
+!backend/data/extracted/.gitkeep
+backend/data/vector_store/*
+!backend/data/vector_store/.gitkeep
+backend/data/reviews/*
+!backend/data/reviews/.gitkeep
+
+# Environment files with private API keys
+*.env
+*.env.*
+!*.env.example
+
+# Node / Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# macOS system files
+.DS_Store
+*.DS_Store

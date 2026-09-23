@@ -1,0 +1,34 @@
+# Enterprise Cloud Migration Strategy and Ethical AI Governance Proposal
+Author: Student 1048291
+Course: CS-504 Cloud Systems & Governance
+
+## 1. Introduction and Architectural Options
+Global Retail Dynamics (GRD) currently relies on a monolithic on-premise infrastructure that struggles during seasonal sales peaks. To address scalability limitations, we evaluate two modern architectural alternatives: Option A (Containerized Microservices on Kubernetes) and Option B (Serverless Event-Driven Architecture on AWS Lambda).
+
+Option A deploys containerized services orchestrated via Amazon Elastic Kubernetes Service (EKS). This architecture provides complete environment parity between local development and cloud production, fine-grained auto-scaling, and portable container networking across availability zones.
+
+Option B leverages managed serverless functions through AWS Lambda, Amazon EventBridge, and DynamoDB. Serverless eliminates node provisioning overhead and scales down to zero idle costs during quiet trading windows. However, serverless architectures introduce cold-start latencies of approximately 250ms for JVM-based microservices and pose operational vendor lock-in risks.
+
+## 2. Ethical AI Framework and Data Governance
+As GRD migrates customer transaction and behavioral logs to the cloud, ethical governance is paramount. We propose an Ethical Data Governance Model structured around three core pillars:
+1. Data Sovereignty & GDPR Compliance: Customer records will be partitioned into regional AWS regions (eu-central-1 for European clients and ap-southeast-2 for Australasian clients) using client-side envelope encryption with AWS KMS.
+2. Algorithmic Fairness & Bias Auditing: GRD's personalized recommendation engine utilizes collaborative filtering that risks perpetuating demographic consumption disparities. We mandate monthly statistical parity and disparate impact assessments using Fairlearn to audit recommendation drift.
+3. Transparent Consumer Consent: Users are provided an intuitive dashboard allowing real-time data export and immediate revocation of automated profiling permissions.
+
+## 3. Implementation Roadmap and Risk Management
+The proposed cloud migration is organized into a four-phase rollout over an 8-month transition plan:
+- Phase 1 (Months 1-2): Foundation setup, VPC peering, and CI/CD security pipelines.
+- Phase 2 (Months 3-4): Migration of non-critical analytics and read-only catalog replicas.
+- Phase 3 (Months 5-6): Database live replication and dual-write synchronisation.
+- Phase 4 (Months 7-8): Cutover of transactional checkout pipelines with canary deployments.
+
+Key risks include network routing failures and data consistency divergence during dual-write phases. We mitigate these risks through automated health checks, blue-green deployment pipelines, and database replication heartbeats.
+
+## 4. Conclusion and References
+The containerized Kubernetes approach represents the most resilient architecture for GRD's high-throughput requirements. Combined with our strict ethical data governance controls, this migration will ensure compliance, reliability, and sustained business agility.
+
+References:
+[1] J. Dean and S. Ghemawat, "MapReduce: Simplified Data Processing on Large Clusters," Commun. ACM, vol. 51, no. 1, 2008.
+[2] M. Fowler, "Microservices Guide," martinfowler.com, 2014.
+[3] IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems, "Ethically Aligned Design," IEEE, 2019.
+[4] AWS Architecture Center, "Serverless Application Lens," Amazon Web Services, 2023.

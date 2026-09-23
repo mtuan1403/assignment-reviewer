@@ -1,0 +1,17 @@
+# ASSIGNMENT SPECIFICATION
+Course: CS-504 Advanced Enterprise Cloud Systems & Governance
+Assignment 2: Cloud Migration Strategy & Ethical AI Governance
+Weight: 40% | Format: IEEE Style (2,250 - 2,750 words)
+
+## 1. Executive Context & Objective
+Global Retail Dynamics (GRD) operates an on-premises monolithic e-commerce and inventory platform.
+Students are required to design an enterprise cloud migration architecture and ethical governance proposal for GRD's transition to modern cloud infrastructure.
+
+## 2. Mandatory Assignment Requirements
+Students must adhere strictly to the following requirements:
+
+- Requirement R1 (Architectural Options): Formulate an enterprise cloud migration strategy evaluating at least two distinct architectural options (such as containerized Kubernetes microservices versus serverless event-driven architecture).
+- Requirement R2 (Comparative Trade-off Analysis): Include a comparative trade-off matrix analyzing capital expenditure versus operational expenditure, latency bounds under peak concurrency, and disaster recovery RPO/RTO.
+- Requirement R3 (Ethical AI & Data Governance): Establish a comprehensive ethical AI and data governance framework addressing customer data privacy (GDPR compliance), cross-border data sovereignty, and proactive bias auditing in automated recommendation algorithms.
+- Requirement R4 (Phased Roadmap): Deliver a realistic, phased 12-month implementation timeline with staged risk mitigations and explicit rollback trigger criteria.
+- Requirement R5 (Formatting & References): The report must follow IEEE citation conventions, adhere to 2,500 words (+/- 10%), and cite at least 8 peer-reviewed or industry-standard sources.

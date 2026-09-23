@@ -1,0 +1,26 @@
+# MARKING RUBRIC
+Course: CS-504 Advanced Enterprise Cloud Systems & Governance
+
+## Criterion 1: Architectural & Technical Analysis (Weight: 30%)
+- High Distinction (HD): Exemplary, rigorous comparative analysis of migration patterns with comprehensive quantitative metrics and architectural justification.
+- Distinction (D): Strong technical analysis evaluating multiple options with clear rationale and minor gaps in numerical trade-off modeling.
+- Credit (CR): Competent overview of cloud architectures but limited depth in comparing architectural trade-offs.
+- Pass (P): Superficial description of technologies without substantive architectural justification.
+
+## Criterion 2: Ethical AI & Data Governance (Weight: 25%)
+- High Distinction (HD): Thorough integration of international ethical AI standards, proactive algorithmic bias auditing, and sovereign data lifecycle controls.
+- Distinction (D): Sound ethical analysis identifying key compliance requirements with actionable mitigation strategies.
+- Credit (CR): General awareness of data privacy and ethical principles without detailed implementation safeguards.
+- Pass (P): Rudimentary mention of privacy regulations with negligible ethical analysis.
+
+## Criterion 3: Strategic Implementation & Risk Mitigation (Weight: 25%)
+- High Distinction (HD): Sophisticated, realistic 12-month phased roadmap with proactive rollback triggers and comprehensive risk governance.
+- Distinction (D): Clear, practical implementation timeline with well-identified risk categories and mitigation protocols.
+- Credit (CR): Basic project timeline with generic risks and conventional mitigations.
+- Pass (P): Unrealistic or vague timeline lacking concrete milestone definitions.
+
+## Criterion 4: Academic Rigour & Professional Communication (Weight: 20%)
+- High Distinction (HD): Impeccable academic prose, coherent synthesis, and flawless citation of authoritative sources adhering to IEEE style.
+- Distinction (D): Well-structured, professional report with consistent academic referencing and minor formatting flaws.
+- Credit (CR): Readable report with adequate referencing but inconsistent terminology or flow.
+- Pass (P): Disorganized structure, informal tone, or frequent citation inaccuracies.
