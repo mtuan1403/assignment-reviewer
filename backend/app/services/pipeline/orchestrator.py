@@ -32,6 +32,7 @@ from backend.app.services.chunker.assignment_chunker import AssignmentChunker
 from backend.app.services.vector_store.chroma_service import ChromaVectorStore
 from backend.app.services.llm.factory import LLMProviderFactory
 from backend.app.services.llm.base import BaseLLMProvider
+from backend.app.services.pipeline.prompt_manager import prompt_manager
 
 logger = get_logger(__name__)
 
@@ -233,38 +234,25 @@ class ReviewPipelineOrchestrator:
         combined_spec_text = "\n\n".join(
             f"[Page {c.page}, Section: {c.section}]\n{c.text}" for c in spec_chunks[:25]
         )
-        prompt = (
-            "You are an academic requirements extraction assistant. Carefully analyze the following assignment specification.\n"
-            "Extract all explicit requirements, assessment criteria, deliverables, and formatting instructions.\n"
-            "RULES:\n"
-            "1. Do NOT invent requirements.\n"
-            "2. Every extracted requirement must include the exact source_text quote and source_page number.\n"
-            "3. Distinguish between explicit requirements, deliverables, assessment requirements, and formatting.\n\n"
-            f"Assignment Specification Text:\n{combined_spec_text}\n"
-        )
-        result = self.llm.generate_structured(prompt, RequirementExtractionResult)
+        sys_prompt = prompt_manager.get_system_prompt()
+        prompt = prompt_manager.render_prompt("extract_requirements", spec_text=combined_spec_text)
+        result = self.llm.generate_structured(prompt, RequirementExtractionResult, system_prompt=sys_prompt)
         return result.requirements
 
     def _extract_rubric(self, rubric_chunks: List[DocumentChunk]) -> List[RubricCriterion]:
         combined_rubric_text = "\n\n".join(
             f"[Page {c.page}, Section: {c.section}]\n{c.text}" for c in rubric_chunks[:25]
         )
-        prompt = (
-            "You are an academic rubric extraction assistant. Analyze the following marking rubric document.\n"
-            "Extract each criterion name, weighting (if specified), performance levels (e.g. HD, D, CR, P, or High/Med/Low), and descriptors.\n"
-            "RULES:\n"
-            "1. Do NOT invent criteria or rubric performance levels that do not exist.\n"
-            "2. Preserve the exact descriptions for each grade/performance tier.\n"
-            "3. Note the source page where the criterion appears.\n\n"
-            f"Rubric Document Text:\n{combined_rubric_text}\n"
-        )
-        result = self.llm.generate_structured(prompt, RubricExtractionResult)
+        sys_prompt = prompt_manager.get_system_prompt()
+        prompt = prompt_manager.render_prompt("extract_rubric", rubric_text=combined_rubric_text)
+        result = self.llm.generate_structured(prompt, RubricExtractionResult, system_prompt=sys_prompt)
         return result.criteria
 
     def _evaluate_requirements(
         self, review_id: str, requirements: List[Requirement]
     ) -> List[RequirementEvaluation]:
         evaluations: List[RequirementEvaluation] = []
+        sys_prompt = prompt_manager.get_system_prompt()
 
         for req in requirements:
             # Query vector database for evidence specifically relevant to this requirement
@@ -276,24 +264,20 @@ class ReviewPipelineOrchestrator:
                 for c in retrieved_chunks
             )
 
-            prompt = (
-                f"Assignment Specification: COMP8240 Assessment Task 1\n"
-                f"Evaluate the student's submission against this specific requirement:\n"
-                f"Requirement ID: {req.id}\n"
-                f"Description: {req.description}\n"
-                f"Mandatory: {req.mandatory}\n"
-                f"Specification Source: '{req.source_text}' (Page {req.source_page})\n\n"
-                f"Retrieved Student Assignment Chunks:\n{context_str}\n\n"
-                f"TASK:\n"
-                f"Determine whether the requirement is COVERED, PARTIAL, MISSING, or UNCLEAR.\n"
-                f"RULES:\n"
-                f"1. If there is insufficient evidence in the chunks, return status 'UNCLEAR' or 'MISSING'.\n"
-                f"2. Do NOT hallucinate evidence or quotes.\n"
-                f"3. Quote directly from the retrieved chunks and cite the exact page and chunk_id.\n"
-                f"4. Provide constructive, specific recommendations.\n"
+            prompt = prompt_manager.render_prompt(
+                "evaluate_requirement",
+                req_id=req.id,
+                req_category=req.category.value if hasattr(req.category, "value") else str(req.category),
+                req_description=req.description,
+                mandatory=req.mandatory,
+                source_text=req.source_text,
+                source_page=req.source_page,
+                context_str=context_str,
             )
 
-            eval_res = self.llm.generate_structured(prompt, RequirementEvaluation)
+            eval_res = self.llm.generate_structured(
+                prompt, RequirementEvaluation, system_prompt=sys_prompt
+            )
             # Ensure requirement_id is strictly matched
             eval_res.requirement_id = req.id
             evaluations.append(eval_res)
@@ -304,6 +288,7 @@ class ReviewPipelineOrchestrator:
         self, review_id: str, rubric_criteria: List[RubricCriterion]
     ) -> List[RubricEvaluation]:
         evaluations: List[RubricEvaluation] = []
+        sys_prompt = prompt_manager.get_system_prompt()
 
         for crit in rubric_criteria:
             query = f"Evidence of performance in {crit.name}. {json.dumps(crit.levels)}"
@@ -316,22 +301,18 @@ class ReviewPipelineOrchestrator:
 
             levels_str = "\n".join(f"- {lvl}: {desc}" for lvl, desc in crit.levels.items())
 
-            prompt = (
-                f"Evaluate the student's alignment against this rubric criterion:\n"
-                f"Criterion ID: {crit.id}\n"
-                f"Name: {crit.name}\n"
-                f"Weight: {crit.weight}%\n"
-                f"Rubric Descriptors:\n{levels_str}\n\n"
-                f"Retrieved Student Assignment Chunks:\n{context_str}\n\n"
-                f"TASK:\n"
-                f"Estimate the performance level alignment based on the evidence.\n"
-                f"IMPORTANT:\n"
-                f"1. This is an AI-estimated rubric alignment for formative feedback, NOT an official university grade.\n"
-                f"2. Explicitly note confidence, key strengths, weaknesses, and targeted recommendations.\n"
-                f"3. Every criticism must cite grounded evidence from the student document.\n"
+            prompt = prompt_manager.render_prompt(
+                "evaluate_rubric",
+                crit_id=crit.id,
+                crit_name=crit.name,
+                weight=crit.weight,
+                levels_str=levels_str,
+                context_str=context_str,
             )
 
-            eval_res = self.llm.generate_structured(prompt, RubricEvaluation)
+            eval_res = self.llm.generate_structured(
+                prompt, RubricEvaluation, system_prompt=sys_prompt
+            )
             eval_res.criterion_id = crit.id
             eval_res.criterion_name = crit.name
             evaluations.append(eval_res)

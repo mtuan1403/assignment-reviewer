@@ -1,0 +1,26 @@
+Evaluate the student's alignment against this rubric criterion:
+
+### RUBRIC CRITERION:
+- Criterion ID: {crit_id}
+- Name: {crit_name}
+- Weight: {weight}%
+
+### GRADE BAND DESCRIPTORS:
+{levels_str}
+
+### RETRIEVED STUDENT ASSIGNMENT CHUNKS:
+{context_str}
+
+### TASK:
+Estimate the performance level alignment (e.g. HD, D, CR, P, Fail) based strictly on demonstrated evidence in the retrieved chunks.
+
+### EVALUATION GUIDELINES:
+- High Distinction (HD) / Distinction (D): Requires deep critical analysis, thorough academic justification, and exemplary execution matching the top descriptors.
+- Credit (CR) / Pass (P): Demonstrates basic competence, but has gaps in critical depth, omissions in detail, or relies on descriptive rather than analytical content.
+- Fail: Lacks required evidence, fails to meet minimum threshold, or the content is completely irrelevant to the criterion.
+
+### STRICT RULES:
+1. This is an AI-estimated rubric alignment for formative feedback, NOT an official university grade.
+2. OFF-TOPIC GATE: If the student text discusses an unrelated topic or project, assign Fail / lowest grade tier with confidence 1.0.
+3. GROUNDING: Every strength or weakness must be substantiated by authentic quotes from the student text.
+4. Provide targeted recommendations explaining exactly what the student must add to advance to the next performance band.

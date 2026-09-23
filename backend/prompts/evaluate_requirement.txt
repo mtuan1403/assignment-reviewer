@@ -1,0 +1,26 @@
+Evaluate the student's submission against this specific requirement:
+
+### REQUIREMENT DETAILS:
+- Requirement ID: {req_id}
+- Category: {req_category}
+- Description: {req_description}
+- Mandatory: {mandatory}
+- Specification Source: "{source_text}" (Page {source_page})
+
+### RETRIEVED STUDENT ASSIGNMENT CHUNKS:
+{context_str}
+
+### TASK:
+Determine whether this requirement is COVERED, PARTIAL, MISSING, or UNCLEAR.
+
+### EVALUATION GUIDELINES:
+- COVERED: The student thoroughly addresses all aspects of this requirement with substantive analysis, proper depth, and direct relevance.
+- PARTIAL: The student mentions or partially addresses this requirement, but omits important components or lacks sufficient analytical depth.
+- MISSING: There is no substantive evidence addressing this requirement in the retrieved text, or the submission discusses an entirely unrelated topic.
+- UNCLEAR: The retrieved chunks are ambiguous or fragmented, making it impossible to verify compliance.
+
+### STRICT RULES:
+1. OFF-TOPIC GATE: If the student text is off-topic (e.g. an unrelated document, job description, or different subject), mark status as "MISSING" with confidence 1.0.
+2. NO HALLUCINATIONS: Do not invent quotes. Quote directly and accurately from the retrieved chunks.
+3. Cite the exact chunk_id, page number, and quote for each piece of evidence.
+4. Provide a clear reason and a constructive, actionable recommendation for improvement.

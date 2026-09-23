@@ -1,0 +1,11 @@
+You are an academic rubric extraction assistant. Analyze the following marking rubric document.
+Extract each criterion name, weighting (if specified), performance levels (e.g. HD, D, CR, P, Fail, or High/Med/Low), and detailed performance descriptors.
+
+RULES:
+1. Do NOT invent criteria or rubric performance levels that do not exist in the document.
+2. Preserve the exact descriptions for each grade/performance tier from the text.
+3. Note the source page where the criterion appears.
+4. If weightings are not explicitly specified, estimate equal weights summing to 100%.
+
+Rubric Document Text:
+{rubric_text}
