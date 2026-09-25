@@ -1,5 +1,6 @@
 import json
 import re
+import time
 from typing import Type, TypeVar, Optional
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -158,6 +159,16 @@ class GeminiProvider(BaseLLMProvider):
                     return validated
             except (LLMException, ValidationError, json.JSONDecodeError) as err:
                 last_error = err
-                logger.warning(f"Gemini retry {attempt + 1}/{settings.LLM_MAX_RETRIES} due to: {err}")
+                err_str = str(err)
+                if "429" in err_str or "503" in err_str:
+                    wait_time = min(5 * (attempt + 1), 15)
+                else:
+                    wait_time = 2 * (attempt + 1)
+                logger.warning(
+                    f"Gemini error on attempt {attempt + 1}/{settings.LLM_MAX_RETRIES}: {err}. "
+                    f"Backing off for {wait_time}s..."
+                )
+                if attempt < settings.LLM_MAX_RETRIES - 1:
+                    time.sleep(wait_time)
 
         raise LLMException(f"Gemini failed to generate structured data: {last_error}")
