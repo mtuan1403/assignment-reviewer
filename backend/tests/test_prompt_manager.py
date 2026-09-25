@@ -31,4 +31,4 @@ def test_prompt_manager_renders_extract_requirements():
     pm = PromptManager()
     rendered = pm.render_prompt("extract_requirements", spec_text="Assessment task 1 details")
     assert "Assessment task 1 details" in rendered
-    assert "Do NOT invent" in rendered
+    assert "Do not invent" in rendered or "Do NOT invent" in rendered

@@ -53,15 +53,10 @@ class PromptManager:
         filename = template_name if template_name.endswith(".txt") else f"{template_name}.txt"
         template_text = self._read_file(filename)
 
-        try:
-            return template_text.format(**kwargs)
-        except KeyError as e:
-            logger.warning(f"Missing placeholder {e} while formatting {filename}. Proceeding with partial replacement.")
-            # Fallback to replacement of provided keys
-            result = template_text
-            for k, v in kwargs.items():
-                result = result.replace(f"{{{k}}}", str(v))
-            return result
+        result = template_text
+        for k, v in kwargs.items():
+            result = result.replace(f"{{{k}}}", str(v))
+        return result
 
 
 # Global singleton instance

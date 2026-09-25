@@ -1,4 +1,4 @@
-Evaluate the student's submission against this specific requirement:
+Evaluate the student's submission **strictly against the specific requirement provided below**. Your evaluation must be based only on the retrieved student assignment chunks and the requirement details. Do not assume that content exists elsewhere in the student's submission.
 
 ### REQUIREMENT DETAILS:
 - Requirement ID: {req_id}
@@ -11,16 +11,68 @@ Evaluate the student's submission against this specific requirement:
 {context_str}
 
 ### TASK:
-Determine whether this requirement is COVERED, PARTIAL, MISSING, or UNCLEAR.
+Determine whether the student's submission satisfies this requirement. Assign exactly **one** of the following statuses:
+
+- **COVERED**: The retrieved text clearly and substantively addresses **all key aspects** of the requirement. The discussion has sufficient depth, analysis, and direct relevance to demonstrate compliance. A simple mention or keyword match is not sufficient.
+- **PARTIAL**: The retrieved text addresses **some but not all** key aspects of the requirement, or addresses the requirement but lacks important detail, evidence, analysis, or depth needed for full compliance.
+- **MISSING**: The retrieved text contains **no substantive evidence** that addresses the requirement, or the content is unrelated to the requirement.
+- **UNCLEAR**: The retrieved text may be relevant, but the available chunks are too ambiguous, incomplete, fragmented, or poorly contextualised to determine whether the requirement is satisfied.
 
 ### EVALUATION GUIDELINES:
-- COVERED: The student thoroughly addresses all aspects of this requirement with substantive analysis, proper depth, and direct relevance.
-- PARTIAL: The student mentions or partially addresses this requirement, but omits important components or lacks sufficient analytical depth.
-- MISSING: There is no substantive evidence addressing this requirement in the retrieved text, or the submission discusses an entirely unrelated topic.
-- UNCLEAR: The retrieved chunks are ambiguous or fragmented, making it impossible to verify compliance.
+1. **Evaluate the requirement itself, not general writing quality.** Focus only on whether the student's submission satisfies the stated requirement.
+2. **Break the requirement into its key components.** Determine whether each important aspect is actually addressed.
+3. **Require substantive evidence.** A keyword, brief mention, definition, or passing reference does not automatically mean the requirement is covered.
+4. **Distinguish mention from analysis.** If the requirement asks the student to analyse, critically evaluate, compare, justify, reflect, apply, or discuss something, merely describing or mentioning it should normally be considered PARTIAL rather than COVERED.
+5. **Use only the retrieved chunks as evidence.** Do not assume that information exists elsewhere in the assignment.
+6. **Consider the context of the evidence.** Do not evaluate isolated sentences without considering the surrounding retrieved text.
+7. **Do not penalise the student for information that the requirement does not actually ask for.**
+8. **If the requirement has multiple components, assess each component before assigning the overall status.**
+9. **If evidence is sufficient for full compliance, mark COVERED even if the wording differs from the requirement. Evaluate meaning and substance, not exact keyword matching.**
+10. **If the evidence is genuinely ambiguous or incomplete, use UNCLEAR rather than guessing.**
 
 ### STRICT RULES:
-1. OFF-TOPIC GATE: If the student text is off-topic (e.g. an unrelated document, job description, or different subject), mark status as "MISSING" with confidence 1.0.
-2. NO HALLUCINATIONS: Do not invent quotes. Quote directly and accurately from the retrieved chunks.
-3. Cite the exact chunk_id, page number, and quote for each piece of evidence.
-4. Provide a clear reason and a constructive, actionable recommendation for improvement.
+1. **OFF-TOPIC GATE:** First determine whether the retrieved student text belongs to the relevant assignment/subject and addresses the general topic of the requirement.
+   - If the text is clearly off-topic (e.g. an unrelated document, job description, different assignment, or different subject), mark the status as **"MISSING"** and confidence as **1.0**.
+   - Do not attempt to find superficial keyword matches in clearly unrelated text.
+
+2. **NO HALLUCINATIONS:** Use only information explicitly present in the retrieved chunks.
+   - Do not invent, paraphrase as a direct quote, or reconstruct missing evidence.
+   - Do not assume that the student made an argument that is not visible in the retrieved text.
+
+3. **EXACT EVIDENCE:** For every piece of evidence used in the evaluation, provide:
+   - the exact `chunk_id`;
+   - the page number, if available;
+   - the exact quotation from the retrieved chunk.
+   - Quotes must be copied exactly from the retrieved text.
+
+4. **EVIDENCE-BASED REASONING:** Explain specifically **why** the evidence satisfies, partially satisfies, or fails to satisfy the requirement. Do not simply repeat the requirement or the student's quote.
+
+5. **ACTIONABLE FEEDBACK:** If the status is PARTIAL, MISSING, or UNCLEAR, provide a specific recommendation explaining what the student should add, clarify, strengthen, or revise to satisfy the requirement.
+
+6. **CONFIDENCE:** Provide a confidence score between 0 and 1 reflecting how certain you are about the assigned status based only on the retrieved evidence.
+   - High confidence: evidence clearly supports the classification.
+   - Low confidence: evidence is limited, fragmented, or ambiguous.
+
+OUTPUT FORMAT:
+
+Return the evaluation in exactly this structure:
+
+Status: [COVERED | PARTIAL | MISSING | UNCLEAR]
+
+Confidence: [0.00–1.00]
+
+Reason:
+[Brief but specific explanation of why the requirement is or is not satisfied.]
+
+Evidence:
+
+Chunk ID: [chunk_id]
+Page: [page number or "N/A"]
+Quote: "[exact quote]"
+Relevance: [Explain how this evidence relates to the requirement.]
+
+[Include additional evidence items only when necessary.]
+
+Recommendation:
+[If COVERED: briefly state what demonstrates compliance.
+If PARTIAL/MISSING/UNCLEAR: provide a specific, actionable recommendation for improvement.]

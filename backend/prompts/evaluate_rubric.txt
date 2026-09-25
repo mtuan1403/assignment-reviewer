@@ -1,4 +1,4 @@
-Evaluate the student's alignment against this rubric criterion:
+Evaluate the student's performance **strictly against the rubric criterion and grade-band descriptors provided below**. This is a formative assessment of demonstrated performance, not an official university grade.
 
 ### RUBRIC CRITERION:
 - Criterion ID: {crit_id}
@@ -12,15 +12,115 @@ Evaluate the student's alignment against this rubric criterion:
 {context_str}
 
 ### TASK:
-Estimate the performance level alignment (e.g. HD, D, CR, P, Fail) based strictly on demonstrated evidence in the retrieved chunks.
+Estimate the student's **performance level alignment** (e.g. HD, D, CR, P, Fail) based **only on the evidence demonstrated in the retrieved assignment chunks**.
+
+The selected performance level must be justified by comparing the student's demonstrated work against the **specific characteristics described in the rubric bands above**.
+
+Do not assign a higher band simply because the writing is generally good, detailed, or relevant. The evidence must demonstrate the qualities required by that specific rubric band.
 
 ### EVALUATION GUIDELINES:
-- High Distinction (HD) / Distinction (D): Requires deep critical analysis, thorough academic justification, and exemplary execution matching the top descriptors.
-- Credit (CR) / Pass (P): Demonstrates basic competence, but has gaps in critical depth, omissions in detail, or relies on descriptive rather than analytical content.
-- Fail: Lacks required evidence, fails to meet minimum threshold, or the content is completely irrelevant to the criterion.
+
+1. **USE THE RUBRIC AS THE PRIMARY STANDARD.**
+   - Treat the provided grade-band descriptors as the authoritative evaluation criteria.
+   - Identify the specific qualities, behaviours, or outcomes required by each relevant band.
+   - Compare the student's demonstrated evidence against those descriptors.
+
+2. **EVALUATE DEMONSTRATED PERFORMANCE, NOT POTENTIAL.**
+   - Assess only what is actually demonstrated in the retrieved chunks.
+   - Do not assume the student understands something merely because they mention it.
+   - Do not give credit for work that may exist elsewhere in the assignment but is not present in the retrieved evidence.
+
+3. **DISTINGUISH DESCRIPTION FROM ANALYSIS.**
+   - If the rubric requires critical thinking, analysis, evaluation, synthesis, justification, application, reflection, or originality, a simple description or summary is not sufficient.
+   - Explain what level of analytical depth is actually demonstrated.
+
+4. **COMPARE AGAINST THE NEXT BAND.**
+   - After identifying the most appropriate current band, identify the specific gap preventing alignment with the next higher band.
+   - Recommendations should focus on closing that gap rather than providing generic advice.
+
+5. **CONSIDER ALL RELEVANT DIMENSIONS.**
+   - If the criterion contains multiple expectations, evaluate each relevant dimension separately before determining the overall alignment.
+   - A strong performance in one dimension does not automatically compensate for a significant weakness in another if the rubric treats them as separate requirements.
+
+6. **DO NOT OVER-PENALISE FOR MISSING CONTEXT.**
+   - If the retrieved chunks are incomplete and the missing context could materially change the evaluation, acknowledge this limitation.
+   - Do not assume missing content is absent from the full assignment.
+
+7. **DO NOT REWARD KEYWORD MATCHING.**
+   - The presence of terminology from the rubric does not demonstrate achievement of the criterion.
+   - Evaluate how effectively the student actually uses the concept.
+
+8. **DESCRIPTIVE FACTS VS. EVALUATIVE JUDGEMENT.**
+   - Clearly distinguish what the student has demonstrated from your interpretation of how that evidence aligns with the rubric.
+   - Avoid unsupported statements such as "this is HD quality" without explaining which rubric descriptor the evidence demonstrates.
 
 ### STRICT RULES:
-1. This is an AI-estimated rubric alignment for formative feedback, NOT an official university grade.
-2. OFF-TOPIC GATE: If the student text discusses an unrelated topic or project, assign Fail / lowest grade tier with confidence 1.0.
-3. GROUNDING: Every strength or weakness must be substantiated by authentic quotes from the student text.
-4. Provide targeted recommendations explaining exactly what the student must add to advance to the next performance band.
+
+1. **FORMATIVE ONLY:** This is an AI-estimated rubric alignment for formative feedback. It is **not an official university grade** and must not be presented as one.
+
+2. **OFF-TOPIC GATE:**
+   - First determine whether the retrieved student text belongs to the relevant assignment/project and addresses the subject matter of the criterion.
+   - If the text is clearly unrelated to the criterion or belongs to an unrelated assignment/project, assign **Fail / the lowest available grade tier** with confidence **1.0**.
+   - Do not use superficial keyword matches to classify unrelated content as relevant.
+
+3. **RUBRIC GROUNDING:**
+   - Every major strength and weakness must be supported by evidence from the retrieved student text.
+   - Explicitly connect the evidence to the relevant rubric descriptor.
+
+4. **NO HALLUCINATIONS:**
+   - Do not invent arguments, analysis, sources, examples, or achievements that are not visible in the retrieved chunks.
+   - Do not assume that missing content exists elsewhere.
+
+5. **EXACT QUOTES:**
+   - Use authentic quotations from the retrieved student text.
+   - Do not invent, reconstruct, or present paraphrases as direct quotes.
+   - For every quote, provide the exact `chunk_id` and page number when available.
+
+6. **EVIDENCE LIMITATION:**
+   - If there is insufficient evidence to confidently distinguish between two adjacent bands, acknowledge the uncertainty rather than pretending the distinction is definitive.
+
+7. **NEXT-BAND RECOMMENDATION:**
+   - Provide specific and actionable recommendations for what the student should add, change, deepen, or improve to demonstrate the characteristics of the **next higher performance band**.
+   - Recommendations must be directly connected to the rubric descriptors.
+
+8. **CONFIDENCE:**
+   - Provide a confidence score from 0.00 to 1.00.
+   - Confidence reflects how clearly the retrieved evidence supports the selected performance band, not how confident you are in the student's overall academic ability.
+   - If the retrieved chunks are limited or fragmented, reduce confidence accordingly.
+
+### OUTPUT FORMAT:
+
+Return the evaluation in exactly this structure:
+
+Performance Level: [HD | D | CR | P | Fail | Other level explicitly provided in rubric]
+
+Confidence: [0.00–1.00]
+
+Rubric Alignment:
+[Explain which specific rubric descriptor(s) the student demonstrates and why.]
+
+Strengths:
+- [Strength supported by evidence and linked to a rubric descriptor.]
+- [Additional strength, if applicable.]
+
+Evidence:
+- Chunk ID: [chunk_id]
+  Page: [page number or "N/A"]
+  Quote: "[exact quote]"
+  Rubric Link: [Explain which rubric descriptor this evidence demonstrates.]
+
+Gaps:
+- [Specific weakness or missing characteristic relative to the selected band or next higher band.]
+- [Additional gap, if applicable.]
+
+Evidence:
+- Chunk ID: [chunk_id]
+  Page: [page number or "N/A"]
+  Quote: "[exact quote]"
+  Explanation: [Explain why this evidence demonstrates the identified gap.]
+
+Next-Band Recommendation:
+[State exactly what the student should add, change, deepen, or demonstrate to move toward the next higher performance band.]
+
+Overall Rationale:
+[Provide a concise explanation of why the selected performance level is the best alignment based on the rubric descriptors and available evidence.]
