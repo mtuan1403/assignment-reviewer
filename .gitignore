@@ -18,6 +18,10 @@ backend/data/vector_store/*
 backend/data/reviews/*
 !backend/data/reviews/.gitkeep
 
+# Confidential user documents & creation scripts
+data/
+scripts/create_user_documents.py
+
 # Environment files with private API keys
 *.env
 *.env.*
